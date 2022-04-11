@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css';
 import { Button } from "@material-ui/core"
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {useToken} from '../useToken'
 
 
 async function loginUser(credentials) {
-  // alert(JSON.stringify(credentials))
-  return fetch('http://[::1]:3021/auth/login', {
+  const response = await fetch('http://[::1]:3021/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
-    // .catch(err => alert(err))
- }
+  });
+  if(response.ok){
+    const {data} = await response.json()
+    return data
+  }else{
+    const error = await response.text();
+    alert(error)
+  }
+}
+ 
 
-function Login({ setToken }) {
+function Login(props) {
 
   const [email, setUserName] = useState();
   const [password, setPassword] = useState();
+
+  const [token, setToken] = useState("")
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -29,7 +37,8 @@ function Login({ setToken }) {
       email,
       password
     });
-    setToken(token);
+   
+    localStorage.setItem("token", token)
   }
 
   return (
@@ -54,8 +63,8 @@ function Login({ setToken }) {
   )
 }
 
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
-}
+// Login.propTypes = {
+//   setToken: PropTypes.func.isRequired
+// }
 
 export default Login;

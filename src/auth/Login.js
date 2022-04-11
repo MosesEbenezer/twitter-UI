@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Login.css';
 import { Button } from "@material-ui/core"
-import { NavLink } from 'react-router-dom';
+import { NavLink, } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {useToken} from '../useToken'
 
@@ -31,12 +31,20 @@ function Login(props) {
 
   const [token, setToken] = useState("")
 
+  useEffect(() => {
+    if(token){
+      window.location = "/home"
+    }
+  }, [token])
+
   const handleSubmit = async e => {
     e.preventDefault();
     const token = await loginUser({
       email,
       password
     });
+
+    setToken(token)
    
     localStorage.setItem("token", token)
   }

@@ -10,17 +10,17 @@ function App() {
 
   const [token, setToken] = useState(localStorage.getItem("token"))
   
-  useEffect(() => {
-    if(token) alert(token)
-  }, [token])
+  // useEffect(() => {
+  //   // if(token) alert(token)
+  // }, [token])
 
   return (
     <BrowserRouter>
       <div className="app">
         <Routes>
-            {/* <Route path="/register" element={<Register/>} exact/>
-            <Route path="/" element={<Login/>} exact/> */}
-            <Route path='/' element={<Home/>} exact/>
+            <Route path="/register" element={<Register/>} exact/>
+            <Route path="/" element={<Login/>} exact/>
+            <Route path='/home' element={<Home/>} exact/>
         </Routes>
     </div>
     </BrowserRouter>
